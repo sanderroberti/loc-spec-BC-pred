@@ -7,6 +7,9 @@ library(survey)
 
 load("20230102_ageeffsim_Smaxcens.RData")
 
+ncores <- 25
+
+
 simul.data = function(n, m = 2, ifbin, 
                       max.enter = 0, max.t = 50, Smax.t = 0.98, Smax.censor = .90,
                       probz = .5, rxz = 0.1, rxuv = 0.2, rxuz = 0.1, rzuv = 0.2, rzuz = 0.5, 
@@ -92,7 +95,7 @@ for(rrX in c(.5, 1, 1.5)){
       for(N in c(10000, 50000, 100000)){
         print(paste(rrX, rrZ, myrho, N))
         
-        cl <- makeCluster(25, outfile="ageeffsim_debug.txt")
+        cl <- makeCluster(ncores, outfile="ageeffsim_debug.txt")
         clusterEvalQ(cl=cl, {RNGkind("L'Ecuyer-CMRG"); library(survival);library(Epi);library(MASS); library(RhpcBLASctl);library(bindata);library(survey); blas_set_num_threads(1)})
         clusterExport(cl, c("simul.data","N","rrX","rrZ","myrho","coh_base","cph","mysmaxt","mysmaxcens","mymaxt"))
         
