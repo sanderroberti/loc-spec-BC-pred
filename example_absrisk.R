@@ -25,6 +25,9 @@ mymod <- "L1" # Model to use to predict risks. Options are L1, L2, L3, P1, P2, a
 
 load(file="20230904_exampledata.RData")
 
+exampledata <- exampledata[,c(1:4,11:12,7:10,5,6,13:14,15:ncol(exampledata))] # Swap the order for CENTRAL and UIQ to make UIQ the reference category
+
+
 
 
 exampledata$agehlcat <- cut(exampledata$agehl, breaks=c(7,20,25,30,45), right=F)
